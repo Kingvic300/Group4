@@ -1,0 +1,2 @@
+class appointment:
+    pass
