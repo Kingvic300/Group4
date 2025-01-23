@@ -1,23 +1,27 @@
+from datetime import date
+from datetime import time
 
 
 class Appointment:
-    def __init__(self,date ,time,doctor_name,patient_name,description):
-        self.__date = date
-        self.__time = time
+    def __init__(self,date:date,time: time,doctor_name,patient_name,description):
+        self.__appointment_date = date
+        self.__appointment_time = time
         self.__doctor_name = doctor_name
         self.__patient_name = patient_name
         self.__is_completed = False
         self.__description = description
 
     def display(self):
-        display = f""""
+
+        display = f"""
                 Patient : {self.__patient_name}
-                date : {self.__date}
-                time : {self.__time}
+                date :{self.__appointment_date}
+                time : {self.__appointment_time}
                 description : {self.__description}
                 Doctor : {self.__doctor_name}    
                 
         """
+        print(display)
 
     def get_description(self):
         return self.__description

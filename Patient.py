@@ -22,8 +22,6 @@ class Patient:
     def get_gender(self):
         return self.gender
 
-
-
     def complete_appointment(self):
         self.medical_history.append(self.__appointment)
         self.__appointment.complete()

@@ -23,6 +23,14 @@ class Hospital:
         self.__doctors["Surgeon"] = Doctor("Carson","Surgeon")
         self.__doctors["Gynaecologist"] = Doctor("Salami","Gynaecologist")
 
+    def get_free_day(self,doctor):
+        day = doctor.get_free_day()
+        month = doctor.get_free_month()
+        return date(2025,month,day)
+
+    def get_free_time(self,doctor):
+        hour = doctor.get_free_time()
+        return time(hour,0)
 
     def schedule_appointment(self,age,gender,patient_name,description):
 
@@ -36,21 +44,26 @@ class Hospital:
         if gender=="Female" and age>13:
             doctor = self.__doctors["Gynaecologist"]
 
-        schedule_date = date(2025,1,13)
-        schedule_time = time(9,0)
+        schedule_date = self.get_free_day(doctor)
+        schedule_time = self.get_free_time(doctor)
 
-        new_appointment = Appointment(date,schedule_time,doctor.getName(),patient_name,description)
+        new_appointment = Appointment(schedule_date,schedule_time,doctor.get_name(),patient_name,description)
 
-        doctor.updateSchedule(new_appointment)
+        doctor.update_schedule(new_appointment)
 
         return new_appointment
 
 
 
     def create_patient(self,patient_name,patient_age,patient_gender,phone_number,email,description):
+
+        patient_gender = patient_gender.lower()
+
         contact_info = ContactDetails(phone_number,email)
         appointment = self.schedule_appointment(patient_age, patient_gender, patient_name, description)
 
         new_patient = Patient(patient_name,patient_age,patient_gender,appointment,contact_info)
         self.__patients.append(new_patient)
+
+        appointment.display()
 
