@@ -1,7 +1,9 @@
-from PythonClass.ClassExercises.MedicalApp.contactdetails import ContactDetails
+from contactdetails import ContactDetails
 from hospital import Hospital
 
+
 hospital = Hospital("St Victor's", "Lagos")
+
 
 def validate_input(prompt):
     while True:
@@ -9,6 +11,7 @@ def validate_input(prompt):
         if user_input:
             return user_input
         print("Please enter something na. This cannot be empty")
+
 
 def get_valid_age():
     while True:
@@ -21,12 +24,14 @@ def get_valid_age():
         except ValueError:
             print("Invalid age. Please enter a valid age.")
 
+
 def get_valid_gender():
     while True:
         gender = validate_input("Enter patient gender (M/F): ").upper()
         if gender in ['M', 'F']:
             return gender
         print("Invalid gender. Please enter 'M' or 'F'.")
+
 
 def get_valid_phone_number():
     while True:
@@ -37,6 +42,7 @@ def get_valid_phone_number():
         except ValueError as e:
             print(str(e))
 
+
 def get_valid_email():
     while True:
         email = validate_input("Enter patient email address: ")
@@ -45,6 +51,7 @@ def get_valid_email():
             return email
         except ValueError as e:
             print(str(e))
+
 
 def create_patient():
     name = validate_input("Enter patient name: ")
@@ -56,6 +63,7 @@ def create_patient():
 
     hospital.create_patient(name, age, gender, phone_number, email, description)
 
+
 def schedule_appointment():
     patient_name = validate_input("Enter patient name: ")
     patient = hospital.find_patient_by_name(patient_name)
@@ -63,8 +71,8 @@ def schedule_appointment():
     if patient:
         description = validate_input("Enter appointment description: ")
         new_appointment = hospital.schedule_appointment(patient.age, patient.gender,
-            patient.name, patient.get_contact_details().get_phone_number(),
-            patient.get_contact_details().get_email(), description)
+                                                        patient.name, patient.get_contact_details().get_phone_number(),
+                                                        patient.get_contact_details().get_email(), description)
         print("Appointment Scheduled:")
         new_appointment.display()
     else:
@@ -90,16 +98,19 @@ def search_doctor():
         print(f"Name: {doctor.get_name()}")
         print(f"Specialization: {doctor.get_specialization()}")
 
+
 def view_all_doctors():
     for name, doctor in hospital.get_all_doctors().items():
         print(f"Name: {doctor.get_name()}")
         print(f"Specialization: {doctor.get_specialization()}\n")
+
 
 def view_all_patients():
     for patient in hospital.get_all_patients():
         print(f"Name: {patient.get_name()}")
         print(f"Age: {patient.age}")
         print(f"Gender: {patient.get_gender()}\n")
+
 
 def view_appointments():
     for name, doctor in hospital._Hospital__doctors.items():
@@ -121,7 +132,7 @@ def view_patient_history():
 def admin_menu():
     options = """
     Receptionist's Menu
-    
+
     1. Create Patient
     2. Schedule Appointment
     3. Search Patient
@@ -131,7 +142,7 @@ def admin_menu():
     7. View All Appointments
     8. View Patient Medical History
     9. Exit
-    
+
     """
     while True:
         print(options)
@@ -199,12 +210,12 @@ def doctors_menu():
 
     options = """
     Doctor's Menu
-    
+
     Press 1 to View Appointment Schedule
     Press 2 to View Appointment History
     Press 3 to Fulfill Appointment
     Press 4 to Exit 
-    
+
     """
     while True:
         print(options)
@@ -227,11 +238,11 @@ def cover_page():
     while True:
         choice = validate_input("""
         Welcome to St Victor's Hospital
-         
+
         Are you a doctor at this hospital? Press 1
         Are you an administrator/receptionist? Press 2
         To Exit the application, Press 3
-        
+
         Please, follow the guidelines
         """)
 

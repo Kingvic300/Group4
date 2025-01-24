@@ -1,6 +1,6 @@
-from PythonClass.ClassExercises.MedicalApp.Patient import Patient
 from appointment import Appointment
 from contactdetails import ContactDetails
+from Patient import Patient
 from doctor import Doctor
 from datetime import date
 from datetime import time
@@ -12,7 +12,7 @@ class Hospital:
         self.__hospital_name = hospital_name
         self.__hospital_address = hospital_address
         self.__doctors = {}
-        self.__patients = []
+        self.__patients :list[Patient]= []
         self.get_doctors()
 
     def get_doctors(self):
@@ -47,9 +47,10 @@ class Hospital:
         schedule_time = self.get_free_time(doctor)
 
         patient_contact = ContactDetails(phone_number,email)
-        new_patient = Patient(patient_name, patient_age, patient_gender, None, patient_contact)
 
-        new_appointment = Appointment(schedule_date,schedule_time,doctor,new_patient,description)
+        new_appointment = Appointment(schedule_date,schedule_time,doctor,patient_name,description)
+
+        new_patient = Patient(patient_name, patient_age, patient_gender, new_appointment, patient_contact)
 
         new_patient.set_appointment(new_appointment)
         doctor.update_schedule(new_appointment)
@@ -99,5 +100,6 @@ class Hospital:
         doctor._Doctor__schedule.remove(appointment)
         doctor._Doctor__appointment_history.append(appointment)
         appointment.complete()
-
+        patient : Patient = self.find_patient_by_name(appointment.get_patient_name())
+        patient.add_to_medical_history(appointment)
 

@@ -1,22 +1,22 @@
 from datetime import date
 from datetime import time
 
-from PythonClass.ClassExercises.MedicalApp.doctor import Doctor
 
+from doctor import Doctor
 
 
 class Appointment:
-    def __init__(self, date: date, time: time, doctor:'Doctor', patient:'Patient' , description:str):
+    def __init__(self, date: date, time: time, doctor:'Doctor', patient_name , description:str):
         self.__appointment_date = date
         self.__appointment_time = time
         self.__doctor = doctor
-        self.__patient = patient
+        self.__patient_name = patient_name
         self.__is_completed = False
         self.__description = description
 
     def display(self):
         display = f"""
-                Patient : {self.__patient.get_name()}
+                Patient : {self.__patient_name}
                 date :{self.__appointment_date}
                 time : {self.__appointment_time}
                 description : {self.__description}
@@ -24,6 +24,15 @@ class Appointment:
 
         """
         print(display)
+
+    def show(self,number):
+        return f"""
+                Patient : {self.__patient_name}
+                date :{self.__appointment_date}
+                time : {self.__appointment_time}
+                description : {self.__description}
+                Doctor : {self.__doctor.get_name()}   
+                """
 
     def get_description(self):
         return self.__description
@@ -34,11 +43,8 @@ class Appointment:
     def get_time(self):
         return self.__time
 
-    # def get_doctor_name(self):
-    #     return self.__doctor_name
-    #
-    # def get_patient_name(self):
-    #     return self.__patient_name
+    def get_patient_name(self):
+        return self.__patient_name
 
     def set_date(self, new_date):
         self.__date = new_date
@@ -50,5 +56,6 @@ class Appointment:
         return self.__is_completed
 
     def complete(self):
+        print("appointment completed in class appointment 2")
         self.__is_completed = True
-        self.__patient.add_to_medical_history(self)
+        # self.__patient.add_to_medical_history(self)

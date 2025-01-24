@@ -1,5 +1,5 @@
-from PythonClass.ClassExercises.MedicalApp.appointment import Appointment
-from PythonClass.ClassExercises.MedicalApp.contactdetails import ContactDetails
+from appointment import Appointment
+from contactdetails import ContactDetails
 
 
 class Patient:
@@ -8,7 +8,7 @@ class Patient:
         self.age = age
         self.gender = gender
         self.__appointment = new_appointment
-        self.medical_history = []
+        self.medical_history : list[Appointment] = []
         self.__contact_details = contact_details
 
     @staticmethod
@@ -38,8 +38,11 @@ class Patient:
 
     def add_to_medical_history(self, appointment):
         self.medical_history.append(appointment)
+        print(len(self.medical_history))
 
 
     def check_medical_history(self):
-        for appointment in self.medical_history:
-            appointment.display()
+        print(len(self.medical_history))
+        for i in range(len(self.medical_history)):
+            print(self.medical_history[i].show(1))
+

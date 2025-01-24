@@ -47,4 +47,3 @@ class Doctor:
     def __validate_doctor_information(self, specialization):
         if specialization == "None" or  not specialization:
             raise ValueError("Invalid specialization")
-
