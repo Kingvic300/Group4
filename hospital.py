@@ -1,7 +1,7 @@
-from MedicalApp.Patient import Patient
-from MedicalApp.appointment import Appointment
-from MedicalApp.contactdetails import ContactDetails
-from MedicalApp.doctor import Doctor
+from PythonClass.ClassExercises.MedicalApp.Patient import Patient
+from appointment import Appointment
+from contactdetails import ContactDetails
+from doctor import Doctor
 from datetime import date
 from datetime import time
 
@@ -32,38 +32,72 @@ class Hospital:
         hour = doctor.get_free_time()
         return time(hour,0)
 
-    def schedule_appointment(self,age,gender,patient_name,description):
+    def schedule_appointment(self,patient_age,patient_gender,patient_name,phone_number,email, description):
 
         doctor = self.__doctors["General Practitioner"]
 
-        if age<13:
+        if patient_age<13:
             doctor = self.__doctors["Pediatrician"]
-        if gender=="Male" and age>13:
+        elif patient_gender=="M" and patient_age>13:
             doctor = self.__doctors["General Practitioner"]
-
-        if gender=="Female" and age>13:
+        elif patient_gender=="F" and patient_age>13:
             doctor = self.__doctors["Gynaecologist"]
 
         schedule_date = self.get_free_day(doctor)
         schedule_time = self.get_free_time(doctor)
 
-        new_appointment = Appointment(schedule_date,schedule_time,doctor.get_name(),patient_name,description)
+        patient_contact = ContactDetails(phone_number,email)
+        new_patient = Patient(patient_name, patient_age, patient_gender, None, patient_contact)
 
+        new_appointment = Appointment(schedule_date,schedule_time,doctor,new_patient,description)
+
+        new_patient.set_appointment(new_appointment)
         doctor.update_schedule(new_appointment)
 
         return new_appointment
-
-
 
     def create_patient(self,patient_name,patient_age,patient_gender,phone_number,email,description):
 
         patient_gender = patient_gender.lower()
 
-        contact_info = ContactDetails(phone_number,email)
-        appointment = self.schedule_appointment(patient_age, patient_gender, patient_name, description)
+        patient_contact = ContactDetails(phone_number,email)
+        appointment = self.schedule_appointment(patient_age, patient_gender, patient_name, phone_number,email, description)
 
-        new_patient = Patient(patient_name,patient_age,patient_gender,appointment,contact_info)
+        new_patient = Patient(patient_name,patient_age,patient_gender,appointment, patient_contact)
         self.__patients.append(new_patient)
 
         appointment.display()
+        return new_patient
+
+    def find_patient_by_name(self,patient_name):
+        for patient in self.__patients:
+            if patient.name == patient_name:
+                return patient
+        return None
+
+    def get_doctors_by_specialization(self, specialization):
+        doctor_on_site = {}
+        for name,doctor in self.__doctors.items():
+            if doctor.get_specialization().lower() == specialization.lower():
+                doctor_on_site[name] = doctor
+        return doctor_on_site
+
+
+    def verify_doctor_by_name(self, name_of_doctor):
+        for doctor in self.__doctors.values():
+            if doctor.get_name() == name_of_doctor:
+                return doctor
+        return None
+
+    def get_all_doctors(self):
+        return self.__doctors
+
+    def get_all_patients(self):
+        return self.__patients
+
+    def fulfill_appointment(self, doctor, appointment):
+        doctor._Doctor__schedule.remove(appointment)
+        doctor._Doctor__appointment_history.append(appointment)
+        appointment.complete()
+
 
